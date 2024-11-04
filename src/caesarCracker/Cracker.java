@@ -2,19 +2,32 @@ package caesarCracker;
 
 import szyfrCezara.Caesar;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Cracker {
     private static final String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    private static final String frequencyLetters = "etaoinshrdlcumwfgypbvkjxqz";
 
-    public static String crack(String text) {
-        return Caesar.decrypt(text, getExpectedKey(text));
+    public static List<String> crack(
+            String text,
+            int amountOfFrequencyLetters
+    ) {
+        List<String> crackedTexts = new ArrayList<>();
+        for (int i = 0; i < amountOfFrequencyLetters; i++) {
+            crackedTexts.add(Caesar.decrypt(text, getExpectedKey(text, i)));
+        }
+        return crackedTexts;
     }
 
-    public static int getExpectedKey(String text) {
+    public static int getExpectedKey(
+            String text,
+            int indexOfFrequencyLetter
+    ) {
         int letterIndex = alphabet.indexOf(getMostFrequentLetter(text));
-        return (letterIndex - alphabet.indexOf('e') + 26) % 26;
+        return (letterIndex - alphabet.indexOf(frequencyLetters.charAt(indexOfFrequencyLetter)) + 26) % 26;
     }
 
     private static char getMostFrequentLetter(String text) {
@@ -38,7 +51,7 @@ public class Cracker {
     }
 
     private static Set<Character> createSet(String text) {
-        Set<Character> textSet = new TreeSet<>();
+        Set<Character> textSet = new HashSet<>();
         for (char letter : text.toCharArray()) {
             if (letter == ' ')
                 continue;

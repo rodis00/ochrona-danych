@@ -2,13 +2,18 @@ package caesarCracker;
 
 import szyfrCezara.Caesar;
 
+import java.util.List;
+
 public class CrackerMain {
     public static void main(String[] args) {
 
-        String textToCrack = Caesar.encrypt("simple text", 3);
-        System.out.println("Text to crack: " + textToCrack);
+        String textToCrack = Caesar.encrypt("TOt@l! h@rD teXt to encrYpT & decrypt$", 3);
+        System.out.println("\nText to crack: " + textToCrack);
 
-        String crackedText = Cracker.crack(textToCrack);
-        System.out.println("Cracked text: " + crackedText);
+        int amountOfLetters = 8;
+        List<String> crackedTexts = Cracker.crack(textToCrack, amountOfLetters);
+
+        System.out.println("\nCracked texts:");
+        crackedTexts.forEach(System.out::println);
     }
 }
